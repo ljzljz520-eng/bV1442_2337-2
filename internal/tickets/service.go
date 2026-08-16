@@ -18,16 +18,13 @@ type Result struct {
 }
 
 func cleanDescription(cleaner TextCleaner, description string) (Result, error) {
-	var err error
 	if strings.TrimSpace(description) == "" {
-		err = ErrDescriptionEmpty
+		return Result{}, ErrDescriptionEmpty
 	}
-	var cleaned string
 	if cleaner == nil {
-		err = ErrCleanerUnavailable
-	} else {
-		cleaned, err = cleaner.Clean(description)
+		return Result{}, ErrCleanerUnavailable
 	}
+	cleaned, err := cleaner.Clean(description)
 	if err != nil {
 		return Result{}, err
 	}
